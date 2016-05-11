@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Android menu animation</title>
+	<style>
+		* {
+			box-sizing: border-box;
+		}
+
+		html, body {
+			max-width: 100vw;
+			max-height: 100vh;
+
+			margin: 0;
+			padding: 0;
+
+			background: #ffffff url('city_rain.jpg');
+			background-size: cover;
+		}
+
+		#outer-container {
+			/* The container who allocates the expanded menu */
+			width: 80vw;
+			height: 80vh;
+
+			position: fixed; /* With position != fixed | static, border-radius don't work in chrome and opera due to bug */
+			top: 10vh;
+			right: 0;
+			left: 0;
+
+			border-radius: 5px;
+			margin: 0 auto;
+			
+			/* Prevent content flows outside container */
+			overflow: hidden;
+
+			background-color: transparent;
+		}
+
+		#inner-circle, #outer-circle {
+			/* Menu buttons */
+			width: 40px;
+			height: 40px;
+
+			background-color: #ffffff;
+
+			position: absolute;
+			bottom: -40px;
+			left: 0;
+			right: 0;
+
+			margin: 0 auto;
+
+			border-radius: 40px;
+
+			transform-origin: bottom;
+			transition: all .4s;
+		}
+
+		/* Clickable button */
+		#outer-circle {
+			bottom: 30px;
+
+			background: url('menu_button.png') center no-repeat;
+			background-size: 150%;
+
+			cursor: pointer;
+		}
+
+		/* Expanded content */
+		#inner-circle.expanded {
+			transform: scale(50, 50) translateY(20px);
+			border-radius: 2000px;
+		}
+
+		/* Content to show (text in this example) */
+		#text {
+			position: relative;
+			z-index: 100;
+
+			padding: 40px;
+			margin-top: 75px;
+
+			opacity: 0;
+
+			transition: all 0.3s;
+		}
+
+		/* Creating an animation to show the text */
+		#text.expanded-text {
+			opacity: 1;
+			margin-top: 0;
+		}
+	</style>
+
+	<script   src="https://code.jquery.com/jquery-2.2.3.min.js"   integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo="   crossorigin="anonymous"></script>
+	<script type="text/javascript">
+
+		$(document).ready(function() {
+
+			var circle = $("#inner-circle"); /* Fake button to make the content rounded and start from here */
+
+			$("#outer-circle").click(function() {
+				if(circle.hasClass('expanded')) { /* If the content is expanded */
+					$("#text").removeClass('expanded-text').one('webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend', function() {
+						circle.removeClass('expanded');
+					});
+				}
+				else {
+					circle.addClass('expanded').one('webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend', function() {
+						$("#text").addClass('expanded-text');
+					});
+				}
+			});
+		});
+	</script>
+</head>
+<body>
+
+	<div id="outer-container">
+		<div id="text">
+			Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sit amet faucibus arcu, at finibus felis. In eget turpis quis magna porta fringilla a ac felis. Maecenas non tristique leo. Fusce efficitur, ligula a semper cursus, ligula eros vulputate neque, accumsan vehicula leo justo at ligula. Aenean semper, leo et tempor molestie, sapien massa convallis turpis, eget molestie dui metus vitae turpis. Morbi ultricies in ipsum sed imperdiet. Suspendisse potenti. Vivamus sollicitudin vel dolor nec mollis. Sed in fermentum metus. Donec lobortis convallis elit, in bibendum velit mattis volutpat. Vivamus sollicitudin aliquet facilisis.
+
+			Sed semper, orci ac pulvinar accumsan, nibh odio aliquam quam, aliquet sagittis turpis lorem ultricies orci. Sed metus felis, dignissim ac tristique ut, faucibus quis odio. Vestibulum in nunc eu risus elementum aliquam. Donec ultricies cursus vestibulum. Suspendisse tellus neque, euismod id leo a, iaculis viverra nibh. Proin eu metus risus. Vestibulum euismod nulla risus, eu ultricies ipsum blandit eu. Ut eu eros sodales, semper ligula nec, cursus sapien. Cras dignissim consectetur libero, sed semper erat lacinia eget. Praesent pharetra urna turpis, at sollicitudin ante tempor vel. Etiam vitae consequat urna. Ut elementum volutpat magna nec posuere. Phasellus ante erat, maximus ut urna vel, finibus vehicula est.
+		</div>
+		<div id="inner-circle"></div>
+	</div>
+
+	<div id="outer-circle"></div>
+
+</body>
+</html>
